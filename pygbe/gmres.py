@@ -134,6 +134,8 @@ def gmres_mgs(surf_array, field_array, X, b, param, ind0, timing, kernel):
 
     iteration = 0
 
+    old_resid = None
+
     # Here start the GMRES
     for outer in range(max_outer):
 
@@ -223,6 +225,12 @@ def gmres_mgs(surf_array, field_array, X, b, param, ind0, timing, kernel):
                 if rel_resid < tol:
                     break
 
+                # Add check that things are changing by at least 2%
+                if (old_resid is not None) and (np.abs((old_resid - rel_resid)/rel_resid) < 0.02):
+                    break
+                else:
+                    old_resid = rel_resid
+
             if iteration%1==0:
                 print('Iteration: {}, relative residual: {}'.format(iteration,rel_resid))
 
@@ -249,6 +257,12 @@ def gmres_mgs(surf_array, field_array, X, b, param, ind0, timing, kernel):
 
         normr = norm(r)
         rel_resid = normr/res_0
+
+        # Add check that things are changing by at least 2%
+        if (old_resid is not None) and (np.abs((old_resid - rel_resid)/rel_resid) < 0.02):
+            return X, iteration
+        else:
+            old_resid = rel_resid
 
         # test for convergence
         if rel_resid < tol:
