@@ -226,7 +226,9 @@ def gmres_mgs(surf_array, field_array, X, b, param, ind0, timing, kernel):
                     break
 
                 # Add check that things are changing by at least 2%
-                if (old_resid is not None) and (np.abs((old_resid - rel_resid)/rel_resid) < 0.02):
+                print("Inner check: rel_resid={}, old_resid={}".format(rel_resid, old_resid))
+                if (old_resid is not None) and (numpy.abs((old_resid - rel_resid)/rel_resid) < tol):
+                    old_resid = rel_resid
                     break
                 else:
                     old_resid = rel_resid
@@ -259,7 +261,8 @@ def gmres_mgs(surf_array, field_array, X, b, param, ind0, timing, kernel):
         rel_resid = normr/res_0
 
         # Add check that things are changing by at least 2%
-        if (old_resid is not None) and (np.abs((old_resid - rel_resid)/rel_resid) < 0.02):
+        print("Outer check: rel_resid={}, old_resid={}".format(rel_resid, old_resid))
+        if (old_resid is not None) and (numpy.abs((old_resid - rel_resid)/rel_resid) < tol):
             return X, iteration
         else:
             old_resid = rel_resid
