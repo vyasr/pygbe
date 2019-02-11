@@ -225,13 +225,13 @@ def gmres_mgs(surf_array, field_array, X, b, param, ind0, timing, kernel):
                 if rel_resid < tol:
                     break
 
-                # Add check that things are changing by at least 2%
-                print("Inner check: rel_resid={}, old_resid={}".format(rel_resid, old_resid))
-                if (old_resid is not None) and (numpy.abs((old_resid - rel_resid)/rel_resid) < tol):
-                    old_resid = rel_resid
-                    break
-                else:
-                    old_resid = rel_resid
+#                # Add check that relative changes are at least the tolerance
+#                print("Inner check: rel_resid={}, old_resid={}".format(rel_resid, old_resid))
+#                if (old_resid is not None) and (numpy.abs((old_resid - rel_resid)/rel_resid) < tol):
+#                    old_resid = rel_resid
+#                    break
+#                else:
+#                    old_resid = rel_resid
 
             if iteration%1==0:
                 print('Iteration: {}, relative residual: {}'.format(iteration,rel_resid))
@@ -260,12 +260,12 @@ def gmres_mgs(surf_array, field_array, X, b, param, ind0, timing, kernel):
         normr = norm(r)
         rel_resid = normr/res_0
 
-        # Add check that things are changing by at least 2%
-        print("Outer check: rel_resid={}, old_resid={}".format(rel_resid, old_resid))
-        if (old_resid is not None) and (numpy.abs((old_resid - rel_resid)/rel_resid) < tol):
-            return X, iteration
-        else:
-            old_resid = rel_resid
+#        # Add check that things are changing by at least 2%
+#        print("Outer check: rel_resid={}, old_resid={}".format(rel_resid, old_resid))
+#        if (old_resid is not None) and (numpy.abs((old_resid - rel_resid)/rel_resid) < tol):
+#            return X, iteration
+#        else:
+#            old_resid = rel_resid
 
         # test for convergence
         if rel_resid < tol:

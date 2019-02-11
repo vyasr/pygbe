@@ -385,6 +385,7 @@ def main(argv=sys.argv, log_output=True, return_output_fname=False,
     print('Solve time        : {}s'.format(solve_time))
     phifname = '{:%Y-%m-%d-%H%M%S}-phi.txt'.format(datetime.now())
     results_dict['solve_time'] = solve_time
+    results_dict['phi_name'] = phifname
     numpy.savetxt(os.path.join(output_dir, phifname), phi)
 
     # Put result phi in corresponding surfaces
